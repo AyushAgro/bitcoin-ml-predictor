@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bitcoin-ml-predictor"
+dynamic = ["version"]
+description = "A machine learning system for Bitcoin price prediction using GRU neural networks"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Ayush Agrawal", email = "ayushagrwal031220@gmail.com"}
+]
+maintainers = [
+    {name = "Ayush Agrawal", email = "ayushagrwal031220@gmail.com"}
+]
+keywords = ["bitcoin", "cryptocurrency", "machine learning", "neural network", "gru", "prediction", "trading"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "pandas==2.1.4",
+    "numpy==1.24.3",
+    "scikit-learn==1.3.2",
+    "python-binance==1.0.19",
+    "jupyter==1.0.0",
+    "ipykernel==6.25.2",
+    "matplotlib==3.7.2",
+    "seaborn==0.12.2",
+    "plotly==5.17.0",
+    "pywhatkit==5.4.3",
+    "python-dateutil==2.8.2",
+    "click==8.1.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/bitcoin-ml-predictor"
+Documentation = "https://github.com/yourusername/bitcoin-ml-predictor#readme"
+Repository = "https://github.com/yourusername/bitcoin-ml-predictor"
+"Bug Tracker" = "https://github.com/yourusername/bitcoin-ml-predictor/issues"
+
+[project.scripts]
+bitcoin-predictor = "cli:cli"
+
+[tool.setuptools_scm]
+write_to = "bitcoin_ml_predictor/_version.py"
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=bitcoin_ml_predictor",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+[tool.coverage.run]
+source = ["bitcoin_ml_predictor"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+] 

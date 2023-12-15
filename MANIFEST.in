@@ -1,0 +1,12 @@
+include README.md
+include LICENSE
+include requirements.txt
+include *.ipynb
+include *.py
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.csv
+global-exclude *.png
+global-exclude *.jpg
+global-exclude *.jpeg 
