@@ -66,71 +66,7 @@ def train(data_file, hidden_size, learning_rate, epochs, test_size):
             epochs=epochs
         )
         
-        # Evaluate model
-        metrics = predictor.evaluate_model(X_test, y_test)
-        click.echo("\n📊 Model Performance:")
-        for metric, value in metrics.items():
-            click.echo(f"  {metric}: {value:.4f}")
-        
-        # Save model info
-        model_info = {
-            'hidden_size': hidden_size,
-            'learning_rate': learning_rate,
-            'epochs': epochs,
-            'metrics': metrics,
-            'history': history
-        }
-        
-        with open('model_info.json', 'w') as f:
-            json.dump(model_info, f, indent=2, default=str)
-            
         click.echo("✅ Model training completed!")
-        click.echo("📁 Model info saved to model_info.json")
-        
-    except Exception as e:
-        click.echo(f"❌ Error: {e}")
-
-
-@cli.command()
-@click.option('--data-file', default='bitcoin_data.csv', help='Input CSV file')
-def predict(data_file):
-    """Make predictions using trained model"""
-    try:
-        if not os.path.exists(data_file):
-            click.echo(f"❌ Data file {data_file} not found.")
-            return
-            
-        predictor = BitcoinPredictor()
-        
-        # Load data
-        df = pd.read_csv(data_file)
-        
-        # Prepare data
-        X_train, X_test, y_train, y_test = predictor.prepare_data(df)
-        
-        # Train model (if not already trained)
-        if predictor.model is None:
-            click.echo("🤖 Training model first...")
-            predictor.train_model(X_train, y_train, epochs=100)
-        
-        # Make predictions
-        predictions = predictor.model.predict(X_test)
-        predictions = predictor.label_scaler.inverse_transform(
-            np.array(predictions).reshape(-1, 1)
-        )
-        
-        # Save predictions
-        results_df = pd.DataFrame({
-            'actual': predictor.label_scaler.inverse_transform(y_test).flatten(),
-            'predicted': predictions.flatten()
-        })
-        
-        results_df.to_csv('predictions.csv', index=False)
-        click.echo("✅ Predictions saved to predictions.csv")
-        
-        # Show sample predictions
-        click.echo("\n📊 Sample Predictions:")
-        click.echo(results_df.head(10).to_string(index=False))
         
     except Exception as e:
         click.echo(f"❌ Error: {e}")
@@ -229,14 +165,6 @@ def demo():
         # Step 3: Train model
         click.echo("\n🤖 Step 3: Training model...")
         history = predictor.train_model(X_train, y_train, epochs=100)
-        
-        # Step 4: Evaluate
-        click.echo("\n📊 Step 4: Evaluating model...")
-        metrics = predictor.evaluate_model(X_test, y_test)
-        
-        click.echo("\n📈 Results:")
-        for metric, value in metrics.items():
-            click.echo(f"  {metric}: {value:.4f}")
         
         click.echo("\n✅ Demo completed successfully!")
         
