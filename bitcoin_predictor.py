@@ -10,6 +10,7 @@ from binance.client import Client
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from typing import List, Tuple, Dict, Any
+import matplotlib.pyplot as plt
 
 
 class OptimizerClass:
@@ -272,6 +273,66 @@ class BitcoinPredictor:
         
         print("Training completed!")
         return history
+    
+    def evaluate_model(self, X_test: np.ndarray, y_test: np.ndarray) -> Dict[str, float]:
+        """Evaluate model performance"""
+        if self.model is None:
+            raise ValueError("Model not trained yet!")
+            
+        predictions = self.model.predict(X_test)
+        predictions = np.array(predictions).flatten()
+        y_test_flat = y_test.flatten()
+        
+        # Calculate metrics
+        mse = np.mean((predictions - y_test_flat) ** 2)
+        mae = np.mean(np.abs(predictions - y_test_flat))
+        rmse = np.sqrt(mse)
+        
+        # Inverse transform for actual price values
+        predictions_actual = self.label_scaler.inverse_transform(predictions.reshape(-1, 1))
+        y_test_actual = self.label_scaler.inverse_transform(y_test)
+        
+        mse_actual = np.mean((predictions_actual - y_test_actual) ** 2)
+        rmse_actual = np.sqrt(mse_actual)
+        
+        return {
+            'mse': mse,
+            'mae': mae,
+            'rmse': rmse,
+            'mse_actual': mse_actual,
+            'rmse_actual': rmse_actual
+        }
+    
+    def plot_training_history(self, history: Dict[str, List]):
+        """Plot training loss history"""
+        plt.figure(figsize=(10, 6))
+        plt.plot(history['epoch'], history['loss'])
+        plt.title('Training Loss Over Time')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.grid(True)
+        plt.show()
+    
+    def plot_predictions(self, X_test: np.ndarray, y_test: np.ndarray, 
+                        predictions: np.ndarray = None):
+        """Plot actual vs predicted values"""
+        if predictions is None:
+            predictions = self.model.predict(X_test)
+            predictions = np.array(predictions).flatten()
+        
+        # Inverse transform
+        y_test_actual = self.label_scaler.inverse_transform(y_test)
+        predictions_actual = self.label_scaler.inverse_transform(predictions.reshape(-1, 1))
+        
+        plt.figure(figsize=(12, 6))
+        plt.plot(y_test_actual, label='Actual', alpha=0.7)
+        plt.plot(predictions_actual, label='Predicted', alpha=0.7)
+        plt.title('Bitcoin Price: Actual vs Predicted')
+        plt.xlabel('Time')
+        plt.ylabel('Price (USD)')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
 
 
 def main():
