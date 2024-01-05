@@ -10,7 +10,6 @@ A comprehensive machine learning system for predicting Bitcoin prices using Gate
 - **Comprehensive CLI**: Command-line interface for all operations
 - **Visualization**: Interactive plots and analysis tools
 - **Model Evaluation**: Multiple performance metrics and validation
-- **Jupyter Integration**: Original notebook preserved for research
 
 ## 📋 Prerequisites
 
@@ -50,12 +49,7 @@ A comprehensive machine learning system for predicting Bitcoin prices using Gate
    python cli.py train
    ```
 
-3. **Make predictions**:
-   ```bash
-   python cli.py predict
-   ```
-
-4. **Run complete demo**:
+3. **Run complete demo**:
    ```bash
    python cli.py demo
    ```
@@ -80,9 +74,6 @@ history = predictor.train_model(X_train, y_train, epochs=500)
 # Evaluate model
 metrics = predictor.evaluate_model(X_test, y_test)
 print(metrics)
-
-# Make predictions
-predictions = predictor.model.predict(X_test)
 ```
 
 ## 📚 Usage Examples
@@ -112,9 +103,6 @@ python cli.py analyze
 
 # Create visualization plots
 python cli.py plot
-
-# Make predictions
-python cli.py predict
 ```
 
 ## 🏗️ Project Structure
@@ -126,39 +114,8 @@ bitcoin-ml-predictor/
 ├── notebook.ipynb           # Original Jupyter notebook
 ├── requirements.txt          # Python dependencies
 ├── setup.py                # Package setup
-├── pyproject.toml          # Modern packaging configuration
-├── MANIFEST.in             # Package manifest
-├── Makefile                # Development tasks
 ├── README.md               # This file
-├── LICENSE                 # MIT License
-└── .gitignore              # Git ignore rules
-```
-
-## 🔧 Development
-
-### Running Tests
-```bash
-make test
-```
-
-### Code Formatting
-```bash
-make format
-```
-
-### Linting
-```bash
-make lint
-```
-
-### Clean Up
-```bash
-make clean
-```
-
-### Available Make Commands
-```bash
-make help  # Show all available commands
+└── LICENSE                 # MIT License
 ```
 
 ## 📊 Model Architecture
